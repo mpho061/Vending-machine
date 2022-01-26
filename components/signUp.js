@@ -1,21 +1,85 @@
-import { View, Text, StyleSheet, Image } from 'react-native';
-import React from 'react';
+import { View, Text, StyleSheet, Image, Alert } from 'react-native';
+import React, { useState } from 'react';
 import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
+import { registration } from '../services';
 
-const signUp = ({navigation}) => {
+const signUp = ({ navigation }) => {
+    const [firstname, setFirstname] = useState('');
+    const [lastname, setLastname] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [passwordconfirm, setPasswordconfirm] = useState('');
+
+    const handlePress = () => {
+        if (!firstname) {
+            alert('Enter your Firtsname*.');
+        }
+
+        if (!email) {
+            alert('Email field is required*.');
+        }
+
+        if (!password) {
+            alert('Password field is required*.');
+        }
+        if (!passwordconfirm) {
+            alert('Password field is required*.');
+        }
+        if (firstname && email && password && passwordconfirm) {
+            registration(email, password, lastname, firstname);
+            navigation.navigate("HomeScreen");
+
+            setFirstname('');
+            setLastname('');
+            setEmail('');
+            setPassword('');
+            setPasswordconfirm('');
+        }
+    };
+
     return (
         <View style={styles.container}>
-            <Text style={styles.textDesign}>CodeTribe Sanitary Pads</Text>
+            <Text style={styles.textDesign}>CodeTribe Sanitary</Text>
             <View style={styles.viewDirection}>
                 <Image style={styles.img} source={require("../assets/BackGround.png")} />
                 <Image style={styles.img} source={require("../assets/BackGround2.png")} />
             </View>
-            <Text style={styles.textDesign3}>Sign Up</Text>
-            <TextInput style={styles.fieldText_Design} placeholder='Enter your email address' />
-            <TextInput style={styles.fieldText_Design} placeholder='Password' />
-            <TextInput style={styles.fieldText_Design} placeholder='Confirm Password' />
+            <Text style={styles.textDesign3}>Let's get started</Text>
+            <TextInput
+                style={styles.fieldText_Design}
+                placeholder='Enter first name'
+                value={firstname}
+                onChangeText={(firstname) => setFirstname(firstname)}
+            
+            />
+            <TextInput
+                style={styles.fieldText_Design}
+                placeholder='Enter last Name'
+                value={lastname}
+                onChangeText={(lastname) => setLastname(lastname)}
+            
+            />
+            <TextInput
+                style={styles.fieldText_Design}
+                placeholder='Enter your email address'
+                value={email}
+                onChangeText={(email) => setEmail(email)}
+            />
+            <TextInput
+                style={styles.fieldText_Design}
+                placeholder='Password'
+                onChangeText={(password) => setPassword(password)}
+                secureTextEntry={true}
+            />
+            <TextInput
+                style={styles.fieldText_Design}
+                placeholder='Confirm Password'
+                onChangeText={(passwordconfirm) => setPasswordconfirm(passwordconfirm)}
+                secureTextEntry={true}
+                
+            />
             <View style={{ marginTop: 10 }}>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={handlePress}>
                     <Text style={styles.loginButton}>Register</Text>
                 </TouchableOpacity>
             </View >
@@ -64,7 +128,7 @@ const styles = StyleSheet.create({
         color: 'pink',
         fontSize: 15,
         fontFamily: 'brush-script mt',
-        marginRight: 165,
+        marginRight: 150,
         marginTop: 20,
     },
     textDesign4: {
@@ -90,8 +154,8 @@ const styles = StyleSheet.create({
         width: 150,
         marginBottom: 50,
     },
-    
-    
+
+
 
 });
 export default signUp;

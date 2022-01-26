@@ -1,74 +1,36 @@
 import { View, Text, StyleSheet, TextInput, Image } from 'react-native';
 import React, { useState } from 'react';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { firebase } from '../config/firebaseConfig';
-import { signIn } from '../services';
-require('firebase/auth')
+import { resetPassword } from '../services';
 
-const Login = ({ navigation }) => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-
-    const handlePress = () => {
-        if (!email) {
-            alert('Email field is required*.');
-        }
-
-        if (!password) {
-            alert('Password field is required*.');
-        }
-
-        signIn(email, password).then(() => {
-            let user = firebase.auth().currentUser
-            if (user) {
-                console.log(user)
-                navigation.navigate('HomeScreen');
-                setEmail('');
-                setPassword('');
-            }
-        });
-
-    };
+const ForgetPassword = () => {
+    const reset = () => {
+        resetPassword(email)
+    }
     return (
         <View style={styles.container}>
             <Text style={styles.textDesign}>CodeTribe Sanitary Pads</Text>
-
             <View style={styles.viewDirection}>
                 <Image style={styles.img} source={require("../assets/BackGround.png")} />
                 <Image style={styles.img} source={require("../assets/BackGround2.png")} />
             </View>
-            <Text style={styles.textDesign3}>Welcome Back</Text>
+            <Text style={styles.textDesign3}>Forgot password</Text>
             <TextInput
                 style={styles.fieldText_Design}
                 placeholder='Enter your email address'
                 value={email}
-                onChangeText={(email) => setEmail(email)} />
-            <TextInput
-                style={styles.fieldText_Design}
-                placeholder='Password' value={password}
-                onChangeText={(password) => setPassword(password)}
-                secureTextEntry={true} />
+                onChangeText={(email) => setEmail(email)}
+            />
             <View style={{ marginTop: 10 }}>
-                <TouchableOpacity onPress={handlePress}>
-                    <Text style={styles.loginButton}>Login</Text>
+                <TouchableOpacity onPress={reset}>
+                    <Text style={styles.loginButton}>Submit</Text>
                 </TouchableOpacity>
 
             </View >
-            <TouchableOpacity onPress={() => navigation.navigate("ForgetPassword")}>
-                <Text style={styles.textDesign5}>Forgot Password</Text>
-            </TouchableOpacity>
-            x
-            <View style={styles.viewDirection}>
-                <Text style={styles.textDesign5}>Don't have an account sign up ?</Text>
-                <TouchableOpacity onPress={() => navigation.navigate("signUp")}>
-                    <Text style={styles.textDesign4}>Sign Up</Text>
-                </TouchableOpacity>
-            </View>
 
-        </View >
+        </View>
     );
 };
-
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -142,5 +104,4 @@ const styles = StyleSheet.create({
         marginTop: 350,
     },
 });
-
-export default Login;
+export default ForgetPassword;
